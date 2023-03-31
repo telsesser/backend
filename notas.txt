@@ -1,0 +1,7 @@
+python 3.10
+
+Abrir entorno virtual:
+    source p1/bin/activate
+
+fastapi:
+    uvicorn main:app --reload

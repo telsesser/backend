@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+
+mariadb
+sqlalchemy
+
+python-jose[cryptography]
+passlib[bcrypt]
