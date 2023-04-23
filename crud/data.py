@@ -24,11 +24,17 @@ def get_gateways_user(id_user: int, skip: int = 0, limit: int = 100):
     return gateways
 
 
-def get_monitors_gateway(id_gateway: int, skip: int = 0, limit: int = 100):
+def get_monitors_gateway(
+    id_gateway: int, id_user: int, skip: int = 0, limit: int = 100
+):
     try:
+        user = db.query(models.users).filter(models.users.id == id_user).first()
         res = (
             db.query(models.monitores)
-            .filter(models.monitores.id_gateway == id_gateway)
+            .filter(
+                models.monitores.id_gateway == id_gateway,
+                models.monitores.id_empresa == user.id_empresa,
+            )
             .offset(skip)
             .all()
         )
@@ -40,15 +46,25 @@ def get_monitors_gateway(id_gateway: int, skip: int = 0, limit: int = 100):
     return res
 
 
-def get_data_monitor(id_monitor: int, skip: int = 0, limit: int = 100):
+def get_data_monitor(id_monitor: int, id_user: int, skip: int = 0, limit: int = 100):
     try:
-        res = (
-            db.query(models.data)
-            .filter(models.data.id_monitor == id_monitor)
+        user = db.query(models.users).filter(models.users.id == id_user).first()
+        qr = (
+            db.query(models.monitores.id)
+            .filter(models.monitores.id_empresa == user.id_empresa)
             .offset(skip)
-            .limit(limit)
             .all()
         )
+        if id_monitor in [x.id for x in qr]:
+            res = (
+                db.query(models.data)
+                .filter(models.data.id_monitor == id_monitor)
+                .offset(skip)
+                .limit(limit)
+                .all()
+            )
+        else:
+            res = False
     except Exception as e:
         print(e)
         res = {"error": "error"}

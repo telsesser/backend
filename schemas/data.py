@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class gateway(BaseModel):
     id: int
-    gateway: str
+    name: str
 
     class Config:
         orm_mode = True
@@ -11,7 +11,7 @@ class gateway(BaseModel):
 
 class monitor(BaseModel):
     id: int
-    monitor: str
+    name: str
 
     class Config:
         orm_mode = True
