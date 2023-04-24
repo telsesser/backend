@@ -37,11 +37,13 @@ class monitores(Base):
     # datos identificación
     id_gateway = Column(INTEGER, ForeignKey("gateways.id"))
     id_heladera = Column(INTEGER, ForeignKey("heladeras.id"))
+    id_empresa = Column(INTEGER, ForeignKey("empresas.id"))
 
     # relaciones
     data = relationship("data", back_populates="monitor")
     gateway = relationship("gateways", back_populates="monitores")
     heladera = relationship("heladeras", back_populates="monitor")
+    empresa = relationship("empresas", back_populates="monitores")
 
 
 class heladeras(Base):
@@ -93,6 +95,7 @@ class empresas(Base):
     # relaciones
     sucursales = relationship("sucursales", back_populates="empresa")
     heladeras = relationship("heladeras", back_populates="empresa")
+    monitores = relationship("monitores", back_populates="empresa")
 
 
 class sucursales(Base):

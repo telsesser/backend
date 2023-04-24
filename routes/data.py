@@ -10,6 +10,24 @@ from crud import data as crud
 router = APIRouter()
 
 
+@router.get("/monitores_online")
+def get_monitores_online(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {"disponible": 30, "total": 35}
+    return res
+
+
+@router.get("/ubicacion")
+def get_ubicacion(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {"disponible": 34, "total": 35}
+    return res
+
+
+@router.get("/temperatura")
+def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {"disponible": 24, "total": 35}
+    return res
+
+
 @router.get(
     "/gateways",
     response_model=List[gateway],

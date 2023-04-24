@@ -17,5 +17,5 @@ engine = create_engine(
 )
 
 Base = declarative_base()
-Session_db = sessionmaker(bind=engine)
-session_db = Session_db()
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session_db = SessionLocal()
