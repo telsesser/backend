@@ -5,7 +5,7 @@ from auth.users import get_current_user
 from schemas.data import gateway, monitor, data
 from schemas.users import User
 from crud import data as crud
-
+import random
 
 router = APIRouter()
 
@@ -25,6 +25,49 @@ def get_ubicacion(current_user: Annotated[User, Depends(get_current_user)]):
 @router.get("/temperatura")
 def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
     res = {"disponible": 24, "total": 35}
+    return res
+
+
+@router.get("/aperturas")
+def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {
+        "1/5/2023": 1120,
+        "2/5/2023": 176,
+        "3/5/2023": 822,
+        "4/5/2023": 1023,
+        "5/5/2023": 983,
+        "6/5/2023": 1345,
+        "7/5/2023": 1264,
+    }
+    return res
+
+
+@router.get("/personas")
+def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {"cantidad": 10254}
+    return res
+
+
+@router.get("/tasas")
+def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
+    res = {"cantidad": "12%"}
+    return res
+
+
+@router.get(
+    "/refrigerators",
+)
+def get_refrigerators():
+    res = [
+        {
+            "id": x,
+            "name": f"heladera {x}",
+            "temp": random.randint(-9, 0),
+            "temp_min": -8,
+            "temp_max": -2,
+        }
+        for x in range(10)
+    ]
     return res
 
 
