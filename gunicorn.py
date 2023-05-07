@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 name = "gunicorn config for FastAPI"
-accesslog = "./logs/gunicorn-access.log"
-errorlog = "./logs/gunicorn-error.log"
+accesslog = "./gunicorn-access.log"
+errorlog = "./gunicorn-error.log"
 
 bind = "0.0.0.0:8000"
 
