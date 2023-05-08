@@ -14,6 +14,7 @@ class data(Base):
     rssi = Column(TINYINT)
     temp = Column(DECIMAL(4, 2))
     openings = Column(SMALLINT(unsigned=True))
+    timestmp = Column(DateTime)
 
     # Relaciones
     monitor = relationship("monitors", back_populates="data")
