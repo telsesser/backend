@@ -1,5 +1,5 @@
 from sqlalchemy import Column, DateTime, String, ForeignKey, Boolean
-from sqlalchemy.dialects.mysql import INTEGER, TINYINT, SMALLINT, DECIMAL
+from sqlalchemy.dialects.mysql import INTEGER, TINYINT, SMALLINT, DECIMAL, BIGINT
 from sqlalchemy.orm import relationship
 from .config import Base, session_db
 
@@ -26,7 +26,7 @@ class data(Base):
 class monitors(Base):
     __tablename__ = "monitors"
     id = Column(INTEGER, primary_key=True)
-    mac = Column()
+    mac_address = Column(BIGINT(unsigned=True))
     name = Column(String(length=32))
 
     # datos dinamicos
