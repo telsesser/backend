@@ -12,7 +12,7 @@ class data(Base):
     id = Column(INTEGER, primary_key=True)
     id_monitor = Column(INTEGER, ForeignKey("monitores.id"))
     rssi = Column(TINYINT)
-    temperatura = Column(TINYINT)
+    temperatura = Column(DECIMAL(4, 2))
     aperturas = Column(SMALLINT(unsigned=True))
 
     # Relaciones
