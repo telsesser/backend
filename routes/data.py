@@ -10,8 +10,8 @@ import random
 router = APIRouter()
 
 
-@router.get("/monitores_online")
-def get_monitores_online(current_user: Annotated[User, Depends(get_current_user)]):
+@router.get("/monitors_online")
+def get_monitors_online(current_user: Annotated[User, Depends(get_current_user)]):
     res = {"disponible": 30, "total": 35}
     return res
 
@@ -28,7 +28,7 @@ def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
     return res
 
 
-@router.get("/aperturas")
+@router.get("/openings")
 def get_teperatura(current_user: Annotated[User, Depends(get_current_user)]):
     res = {
         "1/5/2023": 1120,

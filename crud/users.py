@@ -28,7 +28,7 @@ def create_user(db: Session, user: users.UserCreate):
             email=user.email,
             hashed_password=hashed_password,
             is_active=True,
-            id_empresa=1,
+            id_company=1,
         )
         db.add(db_user)
     except Exception as e:

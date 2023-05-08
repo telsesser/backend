@@ -10,70 +10,71 @@ from .config import Base, session_db
 class data(Base):
     __tablename__ = "data"
     id = Column(INTEGER, primary_key=True)
-    id_monitor = Column(INTEGER, ForeignKey("monitores.id"))
+    id_monitor = Column(INTEGER, ForeignKey("monitors.id"))
     rssi = Column(TINYINT)
-    temperatura = Column(DECIMAL(4, 2))
-    aperturas = Column(SMALLINT(unsigned=True))
+    temp = Column(DECIMAL(4, 2))
+    openings = Column(SMALLINT(unsigned=True))
 
     # Relaciones
-    monitor = relationship("monitores", back_populates="data")
+    monitor = relationship("monitors", back_populates="data")
 
     # funciones
     def get(id):
         return session_db.query(data).get(id)
 
 
-class monitores(Base):
-    __tablename__ = "monitores"
+class monitors(Base):
+    __tablename__ = "monitors"
     id = Column(INTEGER, primary_key=True)
+    mac = Column()
     name = Column(String(length=32))
 
     # datos dinamicos
-    ultimo_dato = Column(DateTime)
-    bateria = Column(TINYINT)
-    aperturas = Column(INTEGER(unsigned=True))
+    last_data = Column(DateTime)
+    batery = Column(TINYINT)
+    openings = Column(INTEGER(unsigned=True))
     rssi = Column(TINYINT)
 
     # datos identificación
     id_gateway = Column(INTEGER, ForeignKey("gateways.id"))
-    id_heladera = Column(INTEGER, ForeignKey("heladeras.id"))
-    id_empresa = Column(INTEGER, ForeignKey("empresas.id"))
+    id_refrigerator = Column(INTEGER, ForeignKey("refrigerators.id"))
+    id_company = Column(INTEGER, ForeignKey("companies.id"))
 
     # relaciones
     data = relationship("data", back_populates="monitor")
-    gateway = relationship("gateways", back_populates="monitores")
-    heladera = relationship("heladeras", back_populates="monitor")
-    empresa = relationship("empresas", back_populates="monitores")
+    gateway = relationship("gateways", back_populates="monitors")
+    refrigerator = relationship("refrigerators", back_populates="monitor")
+    company = relationship("companies", back_populates="monitors")
 
 
-class heladeras(Base):
-    __tablename__ = "heladeras"
+class refrigerators(Base):
+    __tablename__ = "refrigerators"
     id = Column(INTEGER, primary_key=True)
-    id_empresa = Column(INTEGER, ForeignKey("empresas.id"))
+    id_company = Column(INTEGER, ForeignKey("companies.id"))
 
     name = Column(String(length=64))
     temp_min = Column(TINYINT)
     temp_max = Column(TINYINT)
-    modelo_heladera = Column(String(length=32))
-    antiguedad = Column(TINYINT)
-    ubicacion = Column(String(length=32))
-    categoria = Column(String(length=32))
-    ploteo = Column(String(length=32))
+    refrigerator_model = Column(String(length=32))
+    age = Column(TINYINT)
+    ubication = Column(String(length=32))
+    category = Column(String(length=32))
+    plotting = Column(String(length=32))
 
     # relaciones
-    empresa = relationship("empresas", back_populates="heladeras")
-    monitor = relationship("monitores", back_populates="heladera")
+    company = relationship("companies", back_populates="refrigerators")
+    monitor = relationship("monitors", back_populates="refrigerator")
 
 
 class gateways(Base):
     __tablename__ = "gateways"
     id = Column(INTEGER, primary_key=True)
     name = Column(String(length=64))
-    id_sucursal = Column(INTEGER, ForeignKey("sucursales.id"))
+    id_branch = Column(INTEGER, ForeignKey("branches.id"))
 
     # relaciones
-    monitores = relationship("monitores", back_populates="gateway")
-    sucursal = relationship("sucursales", back_populates="gateways")
+    monitors = relationship("monitors", back_populates="gateway")
+    branch = relationship("branches", back_populates="gateways")
 
 
 class users(Base):
@@ -83,34 +84,34 @@ class users(Base):
     email = Column(String(length=254), unique=True, index=True)
     hashed_password = Column(String(length=64))
     is_active = Column(Boolean, default=True)
-    id_empresa = Column(INTEGER, ForeignKey("empresas.id"))
+    id_company = Column(INTEGER, ForeignKey("companies.id"))
 
 
-class empresas(Base):
-    __tablename__ = "empresas"
+class companies(Base):
+    __tablename__ = "companies"
 
     id = Column(INTEGER, primary_key=True, index=True)
     name = Column(String(length=64))
 
     # relaciones
-    sucursales = relationship("sucursales", back_populates="empresa")
-    heladeras = relationship("heladeras", back_populates="empresa")
-    monitores = relationship("monitores", back_populates="empresa")
+    branches = relationship("branches", back_populates="company")
+    refrigerators = relationship("refrigerators", back_populates="company")
+    monitors = relationship("monitors", back_populates="company")
 
 
-class sucursales(Base):
-    __tablename__ = "sucursales"
+class branches(Base):
+    __tablename__ = "branches"
 
     id = Column(INTEGER, primary_key=True, index=True)
     name = Column(String(length=64))
-    id_empresa = Column(INTEGER, ForeignKey("empresas.id"))
-    tipo_local = Column(String(length=32))
+    id_company = Column(INTEGER, ForeignKey("companies.id"))
+    local_type = Column(String(length=32))
     canal = Column(String(length=32))
     provincia = Column(String(length=32))
-    direccion = Column(String(length=32))
+    address = Column(String(length=32))
     # coordenadas = agregar después
-    barrio = Column(String(length=32))
+    neighborhood = Column(String(length=32))
 
     # relaciones
-    gateways = relationship("gateways", back_populates="sucursal")
-    empresa = relationship("empresas", back_populates="sucursales")
+    gateways = relationship("gateways", back_populates="branch")
+    company = relationship("companies", back_populates="branches")

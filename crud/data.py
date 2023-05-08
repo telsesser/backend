@@ -6,8 +6,8 @@ def get_gateways_user(id_user: int, skip: int = 0, limit: int = 100):
     try:
         user = db.query(models.users).filter(models.users.id == id_user).first()
         qr = (
-            db.query(models.monitores.id_gateway)
-            .filter(models.monitores.id_empresa == user.id_empresa)
+            db.query(models.monitors.id_gateway)
+            .filter(models.monitors.id_company == user.id_company)
             .offset(skip)
             .distinct()
             .all()
@@ -30,10 +30,10 @@ def get_monitors_gateway(
     try:
         user = db.query(models.users).filter(models.users.id == id_user).first()
         res = (
-            db.query(models.monitores)
+            db.query(models.monitors)
             .filter(
-                models.monitores.id_gateway == id_gateway,
-                models.monitores.id_empresa == user.id_empresa,
+                models.monitors.id_gateway == id_gateway,
+                models.monitors.id_company == user.id_company,
             )
             .offset(skip)
             .all()
@@ -50,8 +50,8 @@ def get_data_monitor(id_monitor: int, id_user: int, skip: int = 0, limit: int = 
     try:
         user = db.query(models.users).filter(models.users.id == id_user).first()
         qr = (
-            db.query(models.monitores.id)
-            .filter(models.monitores.id_empresa == user.id_empresa)
+            db.query(models.monitors.id)
+            .filter(models.monitors.id_company == user.id_company)
             .offset(skip)
             .all()
         )

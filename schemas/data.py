@@ -20,7 +20,7 @@ class monitor(BaseModel):
 class data(BaseModel):
     rssi: int
     temperatura: int
-    aperturas: int
+    openings: int
 
     class Config:
         orm_mode = True
