@@ -1,5 +1,12 @@
 from sqlalchemy import Column, DateTime, String, ForeignKey, Boolean
-from sqlalchemy.dialects.mysql import INTEGER, TINYINT, SMALLINT, DECIMAL, BIGINT
+from sqlalchemy.dialects.mysql import (
+    INTEGER,
+    TINYINT,
+    SMALLINT,
+    DECIMAL,
+    BIGINT,
+    BOOLEAN,
+)
 from sqlalchemy.orm import relationship
 from .config import Base, session_db
 
@@ -27,14 +34,17 @@ class data(Base):
 class monitors(Base):
     __tablename__ = "monitors"
     id = Column(INTEGER, primary_key=True)
-    mac_address = Column(BIGINT(unsigned=True))
+    mac_address = Column(String(length=12), unique=True, index=True)
     name = Column(String(length=32))
 
     # datos dinamicos
     last_data = Column(DateTime)
+    temp = Column(DECIMAL(4, 2))
     batery = Column(TINYINT)
     openings = Column(INTEGER(unsigned=True))
     rssi = Column(TINYINT)
+    moved = Column(BOOLEAN)
+    moved_datetime = Column(DateTime)
 
     # datos identificación
     id_gateway = Column(INTEGER, ForeignKey("gateways.id"))
@@ -61,6 +71,7 @@ class refrigerators(Base):
     ubication = Column(String(length=32))
     category = Column(String(length=32))
     plotting = Column(String(length=32))
+    type = Column(String(length=64))
 
     # relaciones
     company = relationship("companies", back_populates="refrigerators")

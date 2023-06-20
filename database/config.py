@@ -4,10 +4,10 @@ from sqlalchemy.orm import sessionmaker
 
 # DB_IP = "192.168.5.20:3306"
 # DB_USER = "server"
-DB_USER = "python"
-DB_IP = "127.0.0.1:3306"
+DB_USER = "tomas"
+DB_IP = "89.117.33.152:3306"
 DB_DB = "data"
-DB_PSWRD = "holapython48"
+DB_PSWRD = "Holatomi48."
 engine = create_engine(
     f"mariadb+mariadbconnector://{DB_USER}:{DB_PSWRD}@{DB_IP}/{DB_DB}",
     echo=False,
